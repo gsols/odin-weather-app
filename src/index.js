@@ -2,16 +2,27 @@ import "./styles.css";
 
 import clearDayIcon from "./assets/clear-day.svg";
 import clearNightIcon from "./assets/clear-night.svg";
-import partlyDayIcon from "./assets/partly-cloudy-day.svg";
-import partlyNightIcon from "./assets/partly-cloudy-night.svg";
+import partlyCloudyDayIcon from "./assets/partly-cloudy-day.svg";
+import partlyCloudyNightIcon from "./assets/partly-cloudy-night.svg";
 import cloudyIcon from "./assets/cloudy.svg";
 import windIcon from "./assets/wind.svg";
 import rainIcon from "./assets/rain.svg";
 import snowIcon from "./assets/snow.svg";
 
 
+const iconMap = {
+  clearDayIcon,
+  clearNightIcon,
+  partlyCloudyDayIcon,
+  partlyCloudyNightIcon,
+  windIcon,
+  rainIcon,
+  snowIcon,
+  cloudyIcon
+};
+
 const apiKey = 'NUA2JQ2XKGNC9GNHM8DRPWW4T';
-const location = 'jomgao ARGAO CEBU';
+const location = ' Mahalangur Himal sub-range ';
 const unitGroup = 'metric';
 const baseUrl = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 const url = `${baseUrl}${location}?unitGroup=${unitGroup}&key=${apiKey}&contentType=json`;
@@ -80,10 +91,10 @@ async function renderWeatherData(){
                 iconElement.src = clearNightIcon;
                 break;
             case 'partly-cloudy-day':
-                iconElement.src = partlyDayIcon;
+                iconElement.src = partlyCloudyDayIcon;
                 break;
             case 'partly-cloudy-night':
-                iconElement.src = partlyNightIcon;
+                iconElement.src = partlyCloudyNightIcon;
                 break;
             case 'cloudy':
                 iconElement.src = cloudyIcon;
@@ -186,11 +197,15 @@ async function renderWeatherData(){
 
 
             const newIconName = days[i].icon    
-                .replace(/-([a-z])/g, (letter) => letter.toUpperCase()) + "Icon";
+                .replace(/-([a-z])/g, (g, letter) => letter.toUpperCase()) + "Icon";
 
-            dayIconElement.src = newIconName in { clearDayIcon, clearNightIcon, partlyDayIcon, partlyNightIcon, cloudyIcon, windIcon, rainIcon, snowIcon } ?
-                { clearDayIcon, clearNightIcon, partlyDayIcon, partlyNightIcon, cloudyIcon, windIcon, rainIcon, snowIcon }[newIconName] : '';
-            dayIconElement.alt = days[i].conditions;
+            if(iconMap[newIconName]){
+                dayIconElement.src = iconMap[newIconName];
+            }else {
+                console.warn(`Webpack asset mapping missing for string: ${newIconName}`);
+            }
+
+            dayIconElement.alt = days[i].icon;
 
             conditionsElement.appendChild(dayIconElement);
 
@@ -209,7 +224,62 @@ async function renderWeatherData(){
             }
         }
 
+        //section for one hour forecast
+        const sectionOneHourForecast = document.querySelector('.section.three');
+        sectionOneHourForecast.innerHTML = '';
 
+        // 1. Safely parse the current numeric hour for the target timezone
+        const localHourStr = new Date().toLocaleString('en-US', { hour: 'numeric', hour12: false, timeZone: timezone });
+        let startHour = Number(localHourStr);
+
+        // 2. Apply your conditional logic rules
+        if (startHour + 8 > 23 ) {
+            startHour = 16;
+        }
+
+
+        // Clear previous forecast elements before rendering a new location
+        sectionOneHourForecast.innerHTML = '';
+
+        // 3. Loop exactly 8 times to build the 8-hour forecast block
+        for (let i = 0; i < 8; i++) {
+            // This calculates the correct index (e.g., 15, 16, 17...) for the weather data array
+            const actualHourIndex = startHour + i;
+            const hourData = days[0].hours[actualHourIndex];
+
+            // Safety fallback in case the index somehow rolls past midnight (24+)
+            if (!hourData) break; 
+
+            const hourElement = document.createElement('div');
+            hourElement.classList.add('one-hour-forecast');
+
+            // Display the actual calculated local time slot label (e.g., "15:00", "16:00")
+            const timeSlotElement = document.createElement('div');
+            timeSlotElement.classList.add('time-slot');
+            timeSlotElement.textContent = `${actualHourIndex}:00`;
+
+            // Process and assign the icon asset
+            const iconElement = document.createElement('img');
+            const iconName = hourData.icon.replace(/-([a-z])/g, (g, letter) => letter.toUpperCase()) + "Icon";
+
+            if (iconMap[iconName]) {
+                iconElement.src = iconMap[iconName];
+            } else {
+                console.warn(`Webpack asset mapping missing for string: ${iconName}`);
+            }
+            iconElement.alt = hourData.icon;
+
+            // Process temperature strings
+            const tempElement = document.createElement('div');
+            tempElement.classList.add('temp');
+            tempElement.textContent = Math.round(hourData.temp) + (unitGroup === 'metric' ? '°C' : '°F');
+
+            // Append to DOM layout
+            hourElement.appendChild(timeSlotElement);
+            hourElement.appendChild(iconElement);
+            hourElement.appendChild(tempElement);
+            sectionOneHourForecast.appendChild(hourElement);
+        }
     }catch(error){
 
         console.error("Error rendering weather data:", error);

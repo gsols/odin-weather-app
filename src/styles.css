@@ -205,7 +205,32 @@ body {
   /* background-color: blue; */
   grid-row: 2/ span 9;
   border: #000000 solid;
+  display: grid;
+  gap: 8px;
+  grid-template-rows: repeat(8, 1fr);
 }
+
+.one-hour-forecast {
+  background-color: #c9c9c9;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.one-hour-forecast .time-slot {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.one-hour-forecast img {
+  width: 50px;
+  height: 50px;
+}
+.one-hour-forecast .temp {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
 
 
 .right ul{
