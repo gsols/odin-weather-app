@@ -1,0 +1,6 @@
+*, *::before, *::after {
+  box-sizing: border-box; /* Includes padding and borders within the element's total width and height */
+  margin: 0;              /* Removes default outer margins on body, headings, and paragraphs */
+  padding: 0;             /* Removes default inner padding on lists and containers */
+}
+
