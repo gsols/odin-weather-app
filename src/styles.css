@@ -45,7 +45,7 @@ body {
   /* background-color: red; */
   border: #000000 solid;
   grid-column: 1 / span 3;
-  grid-row: 1 / span 5;
+  grid-row: 2 / span 5;
   display: flex;
   flex-direction: column;
   min-width: 600px;
@@ -129,14 +129,82 @@ body {
   margin-bottom: 32px;
 }
 .section.two{
-  background-color: green;
+  /* background-color: green; */
+  display: flex;
+  flex-direction: column;
+  border: #000000 solid;
   grid-column: 1 / span 3;
-  grid-row: 6 / span 5;
+  grid-row: 7 / span 4;
 }
 
+.section.two > div:first-child{
+  margin-bottom: 16px;
+}
+
+.days-list { 
+  display: grid;
+  height: 100%;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.day .date-info {
+  margin-bottom: 16px;
+}
+
+.day-name {
+  font-weight: bold;
+}
+
+.day .date{
+  font-size: 0.9em;
+  color: #555;
+}
+
+.min-max {
+  font-size: 0.9em;
+  margin-bottom: 30px;
+}
+
+.min-max span{
+  color: #555;
+}
+
+
+.day .conditions{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+  font-size: 0.9em;
+}
+
+.day .conditions img{
+  max-width: 80px;
+  max-height: 80px;
+  flex: 1;
+}
+
+.current-day {
+  background-color: #d0e0ff;
+  border-top: #000000 solid;
+}
+
+
+
 .section.three{
-  background-color: blue;
-  grid-row: span 10;
+  /* background-color: blue; */
+  grid-row: 2/ span 9;
+  border: #000000 solid;
 }
 
 

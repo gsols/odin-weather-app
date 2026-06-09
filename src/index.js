@@ -11,7 +11,7 @@ import snowIcon from "./assets/snow.svg";
 
 
 const apiKey = 'NUA2JQ2XKGNC9GNHM8DRPWW4T';
-const location = 'paris france';
+const location = 'jomgao ARGAO CEBU';
 const unitGroup = 'metric';
 const baseUrl = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
 const url = `${baseUrl}${location}?unitGroup=${unitGroup}&key=${apiKey}&contentType=json`;
@@ -127,7 +127,7 @@ async function renderWeatherData(){
         const conditions = [
             { label: 'Humidity', value: currentConditions.humidity + '%' },
             { label: 'Wind Speed', value: currentConditions.windspeed + (unitGroup === 'metric' ? ' km/h' : ' mph') },
-            { label: 'Precipitation', value: currentConditions.precip + (unitGroup === 'metric' ? ' mm' : ' in') },
+            { label: 'Precipitation', value: currentConditions.precipprob + ("%") },
             { label: 'Visibility', value: currentConditions.visibility + (unitGroup === 'metric' ? ' km' : ' mi') },
             { label: 'UV Index', value: currentConditions.uvindex }
         ];
@@ -138,6 +138,76 @@ async function renderWeatherData(){
             conditionsListElement.appendChild(listItem);
         });
 
+        const daysListElement = document.querySelector('.days-list');
+        daysListElement.innerHTML = '';
+
+        for(let i = 0; i < 7; i++){
+            //date info
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('day');
+            const dateInfoElement = document.createElement('div');
+            dateInfoElement.classList.add('date-info');
+            const minMaxElement = document.createElement('div');
+            minMaxElement.classList.add('min-max');
+            const conditionsElement = document.createElement('div');
+            conditionsElement.classList.add('conditions');
+            
+            const [year, month, day] = days[i].datetime.split("-");
+            const date = new Date(year, month - 1, day);
+            const formattedDate = date.toLocaleDateString('en-US', { weekday: 'short'}).toLocaleUpperCase();
+
+            const dayNameElement = document.createElement('div');
+            dayNameElement.classList.add('day-name');
+            dayNameElement.textContent = formattedDate;
+
+            const dateElement = document.createElement('div');
+            dateElement.classList.add('date');
+            dateElement.textContent = `${date.getDate()} ${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).split(" ")[0]}`;
+            
+            dateInfoElement.appendChild(dayNameElement);
+            dateInfoElement.appendChild(dateElement);
+
+
+            //min max
+
+            const minTempElement = document.createElement('div');
+            minTempElement.classList.add('min');
+            minTempElement.innerHTML = `<span>min: </span>` + Math.round(days[i].tempmin) + (unitGroup === 'metric' ? '°C' : '°F');
+
+            const maxTempElement = document.createElement('div');
+            maxTempElement.classList.add('max');
+            maxTempElement.innerHTML = `<span>max: </span>` + Math.round(days[i].tempmax) + (unitGroup === 'metric' ? '°C' : '°F');
+            const dayIconElement = document.createElement('img');
+
+            minMaxElement.appendChild(minTempElement);
+            minMaxElement.appendChild(maxTempElement);
+
+            //conditions
+
+
+            const newIconName = days[i].icon    
+                .replace(/-([a-z])/g, (letter) => letter.toUpperCase()) + "Icon";
+
+            dayIconElement.src = newIconName in { clearDayIcon, clearNightIcon, partlyDayIcon, partlyNightIcon, cloudyIcon, windIcon, rainIcon, snowIcon } ?
+                { clearDayIcon, clearNightIcon, partlyDayIcon, partlyNightIcon, cloudyIcon, windIcon, rainIcon, snowIcon }[newIconName] : '';
+            dayIconElement.alt = days[i].conditions;
+
+            conditionsElement.appendChild(dayIconElement);
+
+            const conditionsTextElement = document.createElement('div');
+            conditionsTextElement.classList.add('conditions');
+            conditionsTextElement.textContent = days[i].conditions;
+            conditionsElement.appendChild(conditionsTextElement);
+
+            dayElement.appendChild(dateInfoElement);
+            dayElement.appendChild(minMaxElement);
+            dayElement.appendChild(conditionsElement);
+            daysListElement.appendChild(dayElement);
+
+            if(i === 0){
+                dayElement.classList.add('current-day');    
+            }
+        }
 
 
     }catch(error){
