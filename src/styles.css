@@ -252,9 +252,11 @@ body {
 .search {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   gap: 8px;
   height: 50px;
+  width: 80%;
 }
 
 #search-bar {
@@ -281,4 +283,10 @@ body {
   color: white;
   cursor: pointer;
   width: fit-content;
+}
+
+
+label {
+  color: #000000;
+    text-shadow: 2px 2px 4px rgba(238, 238, 238, 0.3); 
 }

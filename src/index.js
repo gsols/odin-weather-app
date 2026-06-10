@@ -304,12 +304,13 @@ async function renderWeatherData(){
             hourElement.appendChild(tempElement);
             sectionOneHourForecast.appendChild(hourElement);
         }
-
-        if (toggleButton.textContent === "Show °C") {
+        
+        if (unitGroup === "metric") {
             toggleButton.textContent = "Show °F";
         } else {
             toggleButton.textContent = "Show °C";
         }
+
 
     }catch(error){
 
@@ -337,4 +338,6 @@ searchButton.addEventListener('click', () => {
     }
 });
 
+
 renderWeatherData();
+
