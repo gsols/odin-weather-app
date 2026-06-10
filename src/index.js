@@ -9,6 +9,14 @@ import windIcon from "./assets/wind.svg";
 import rainIcon from "./assets/rain.svg";
 import snowIcon from "./assets/snow.svg";
 
+import clearDayBackground from "./assets/clear-day-background.jpg";
+import clearNightBackground from "./assets/clear-night-background.jpg";
+import partlyCloudyDayBackground from "./assets/partly-cloudy-day-background.jpg";
+import partlyCloudyNightBackground from "./assets/partly-cloudy-night-background.jpg";
+import cloudyBackground from "./assets/cloudy-background.jpg";
+import windyBackground from "./assets/windy-background.jpg";
+import rainBackground from "./assets/rain-background.jpeg";
+import snowBackground from "./assets/snow-background.jpg";
 
 const iconMap = {
   clearDayIcon,
@@ -22,13 +30,14 @@ const iconMap = {
 };
 
 const apiKey = 'NUA2JQ2XKGNC9GNHM8DRPWW4T';
-const location = ' Mahalangur Himal sub-range ';
-const unitGroup = 'metric';
+let location = 'argao, cebu';
+let unitGroup = 'metric';
 const baseUrl = 'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/';
-const url = `${baseUrl}${location}?unitGroup=${unitGroup}&key=${apiKey}&contentType=json`;
 
 const weatherData = async function fetchWeatherData() {
     try{
+        
+        const url = `${baseUrl}${location}?unitGroup=${unitGroup}&key=${apiKey}&contentType=json`;
         const response = await fetch(url);
         const data = await response.json();
         
@@ -76,6 +85,12 @@ const weatherDescriptionElement = document.querySelector('.description');
 
 const conditionsListElement = document.querySelector('.conditions-list');
 
+const searchBar = document.getElementById('search-bar');
+const searchButton = document.querySelector('.search-button');
+const toggleButton = document.querySelector('.toggle-unit');
+
+const backgroundElement = document.querySelector('.background');
+
 async function renderWeatherData(){
     try{
         const weather = await weatherData();
@@ -86,31 +101,40 @@ async function renderWeatherData(){
         switch(currentConditions.icon){
             case 'clear-day':
                 iconElement.src = clearDayIcon;
+                backgroundElement.style.backgroundImage = `url(${clearDayBackground})`;
                 break;
             case 'clear-night':
                 iconElement.src = clearNightIcon;
+                backgroundElement.style.backgroundImage = `url(${clearNightBackground})`;
                 break;
             case 'partly-cloudy-day':
                 iconElement.src = partlyCloudyDayIcon;
+                backgroundElement.style.backgroundImage = `url(${partlyCloudyDayBackground})`;
                 break;
             case 'partly-cloudy-night':
                 iconElement.src = partlyCloudyNightIcon;
+                backgroundElement.style.backgroundImage = `url(${partlyCloudyNightBackground})`;
                 break;
             case 'cloudy':
                 iconElement.src = cloudyIcon;
+                backgroundElement.style.backgroundImage = `url(${cloudyBackground})`;
                 break;
             case 'wind':
                 iconElement.src = windIcon;
+                backgroundElement.style.backgroundImage = `url(${windyBackground})`;
                 break;
             case 'rain':
                 iconElement.src = rainIcon;
+                backgroundElement.style.backgroundImage = `url(${rainBackground})`;
                 break;
             case 'snow':
                 iconElement.src = snowIcon;
+                backgroundElement.style.backgroundImage = `url(${snowBackground})`;
                 break;
-            case 'fog':
-                iconElement.src = fogIcon;
-                break;
+            // case 'fog':
+            //     iconElement.src = fogIcon;
+            //     backgroundElement.style.backgroundImage = `url(${fogBackground})`;
+            //     break;
             default:
                 iconElement.src = '';
         }
@@ -280,15 +304,31 @@ async function renderWeatherData(){
             hourElement.appendChild(tempElement);
             sectionOneHourForecast.appendChild(hourElement);
         }
+
     }catch(error){
 
         console.error("Error rendering weather data:", error);
     }
 }
 
+
+toggleButton.addEventListener('click', () => {
+    if (unitGroup === 'metric') {
+        toggleButton.textContent = "Show °C";
+        unitGroup = 'us';
+    } else {
+        toggleButton.textContent = "Show °F";
+        unitGroup = 'metric';
+    }
+    renderWeatherData();
+});
+
+searchButton.addEventListener('click', () => {
+    const userInput = searchBar.value.trim();
+    if (userInput) {
+        location = userInput;
+        renderWeatherData();
+    }
+});
+
 renderWeatherData();
-
-
-
-
-
