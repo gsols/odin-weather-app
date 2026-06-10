@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+<script defer src="main.js"></script></head>
+
+<body class="background">
+    <div class="search">
+        <label for="search-bar">Search Location:</label>
+        <input id="search-bar" type="text" placeholder="Search location...">
+        <button class="search-button"type="submit">Search</button>
+        <button class="toggle-unit" type="button">Show °C</button>
+    </div>
+    <div id="content">
+        <div class="section one">
+            <div class="location">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>map-marker</title><path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" /></svg>
+                <div class="location-name">Jomgao, Argao Cebu</div>
+            </div>
+            <div class="weather-info">
+                <div class="left">
+                    <div>
+                        <div class="weather-icon">
+                            <img src="06568ce46b1b2cd5131c.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="sunset-sunrise">
+                        <div class="sunrise">Sunrise: 6:00 AM</div>
+                        <div class="sunset">Sunset: 6:00 PM</div>
+                    </div>
+                </div>
+                <div class="middle">
+                    <div class="date-time">
+                        Friday, September 15 | 14:00
+                    </div>
+                    <div class="temperature">
+                        28°C
+                    </div>
+                    <div class="feels-like">Feels like: 30°C</div>
+                    <div class="weather-description">
+                        <div class="condition"> Storm with Heavy Rain</div>
+                        <div class="description">Heavy rain is expected throughout the day with possible flooding in low-lying areas.</div>
+                    </div>
+                </div>
+                <div class="right">
+                    <h2>CONDITIONS:</h2>
+                    <ul class="conditions-list">
+                        <li>Humidity: 43.6%</li>
+                        <li>Wind Speed: 6.6 km/h</li>
+                        <li>Precipitation: 0 mm</li>
+                        <li>Visibility: 10 km</li>
+                        <li>UV Index: 5</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div class="section two"> 
+            <div>
+                7-DAY FORECAST
+            </div>  
+            <div class="days-list">
+                <div class="day">
+                    <div class="date-info">
+                        <div class="day-name">FRIDAY</div>
+                        <div class="date">September 15</div>
+                    </div>
+                    <div class="min-max">
+                        <div class="min"><span>min:</span> 25°C</div>
+                        <div class="max"><span>max:</span> 30°C</div>
+                    </div>
+                    <div class="conditions">
+                        <img src="06568ce46b1b2cd5131c.svg" alt="">
+                        <div class="conditions">Rain, Partially Cloudy</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>  
+        <div class="section three">
+            <div class="one-hour-forecast">
+                <div class="time-slot">01:00</div>
+                <img src="06568ce46b1b2cd5131c.svg" alt="">
+                <div class="temp">28°C</div>
+            </div>
+            <div class="one-hour-forecast">
+
+            </div>
+            <div class="one-hour-forecast">
+
+            </div>              <div class="one-hour-forecast">
+
+            </div>              <div class="one-hour-forecast">
+
+            </div>              <div class="one-hour-forecast">
+
+            </div>              <div class="one-hour-forecast">
+
+            </div>
+
+            <div class="one-hour-forecast">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
