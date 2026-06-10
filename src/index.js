@@ -305,6 +305,12 @@ async function renderWeatherData(){
             sectionOneHourForecast.appendChild(hourElement);
         }
 
+        if (toggleButton.textContent === "Show °C") {
+            toggleButton.textContent = "Show °F";
+        } else {
+            toggleButton.textContent = "Show °C";
+        }
+
     }catch(error){
 
         console.error("Error rendering weather data:", error);
